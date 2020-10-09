@@ -1,4 +1,4 @@
-package controller;
+package onetoone.controller;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import controller.dao.CoderDAO;
 import controller.dao.TeamDAO;
-import model.Team;
+import onetoone.model.Team;
 
 /**
  * Servlet implementation class TeamCreationSrv

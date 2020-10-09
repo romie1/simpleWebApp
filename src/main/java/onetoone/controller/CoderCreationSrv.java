@@ -1,4 +1,4 @@
-package controller;
+package onetoone.controller;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import controller.dao.CoderDAO;
-import model.Coder;
+import onetoone.model.Coder;
 
 /**
  * Servlet implementation class CoderCreation

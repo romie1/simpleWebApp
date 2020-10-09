@@ -9,7 +9,7 @@ import javax.persistence.EntityTransaction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import model.Coder;
+import onetoone.model.Coder;
 
 public class CoderDAO {
 	static final Logger LOG = LoggerFactory.getLogger(CoderDAO.class);
@@ -54,6 +54,17 @@ public class CoderDAO {
 			if (em != null) {
 				em.close();
 			}
+		}
+	}
+	
+	public List<manytomany.model.Coder> readAllEager() {
+		EntityManager em = null;
+		try {
+			em = HibUtil.getEntityManager();
+			String jpql = "SELECT DISTINCT e FROM coderManyToMany e JOIN FETCH e.teams";
+			return em.createQuery(jpql, manytomany.model.Coder.class).getResultList();
+		} finally {
+			em.close();
 		}
 	}
 

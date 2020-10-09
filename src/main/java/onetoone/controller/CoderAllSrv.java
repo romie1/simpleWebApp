@@ -1,4 +1,4 @@
-package controller;
+package onetoone.controller;
 
 import java.io.IOException;
 import java.util.List;
@@ -13,7 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import controller.dao.CoderDAO;
-import model.Coder;
+import onetoone.model.Coder;
 
 /**
  * Get all coders
