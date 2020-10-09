@@ -13,11 +13,13 @@
 		<tr>
 			<th>Id</th>
 			<th>Name</th>
+			<th>Leader</th>
 		</tr>
 		<c:forEach var="cur" items="${teams}">
 			<tr>
 				<td>${cur.id}</td>
 				<td>${cur.name}</td>
+				<td>${cur.leader.firstName} ${cur.leader.lastName}</td>	
 			</tr>
 		</c:forEach>
 	</table>

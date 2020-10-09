@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -25,6 +26,9 @@ public class Coder {
     private LocalDate hireDate;
 
     private Double salary;
+    
+    @OneToOne(optional = true, mappedBy = "leader")
+    private Team leadingTeam;
 
     public Coder() {
     }
@@ -69,10 +73,19 @@ public class Coder {
         this.salary = salary;
     }
 
+    
+	public Team getLeadingTeam() {
+		return leadingTeam;
+	}
+
+	public void setLeadingTeam(Team leadingTeam) {
+		this.leadingTeam = leadingTeam;
+	}
+
 	@Override
 	public String toString() {
-		return String.format("Coder id=%s, firstName=%s, lastName=%s, hireDate=%s, salary=%s", id, firstName,
-				lastName, hireDate, salary);
+		return String.format("Coder id = %s, First Name = %s, Last Name = %s, Hire Date = %s, Salary = %s, Leading Team = %s", id, firstName,
+				lastName, hireDate, salary, leadingTeam != null ? leadingTeam.getName() : "" );
 	}
     
     

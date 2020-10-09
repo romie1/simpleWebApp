@@ -7,26 +7,42 @@
 <body>
 	<h1>Simple Hibernate Web App</h1>
 
-	<a href="/simple/coder/all">Get all coders</a>
-	<br>
-	<br>
-	<form action="/simple/coder">
-		<input name="id" placeholder="Put coder id">
-		<button>Get the coder</button>
-	</form>
-	<br>
-	<a href="/simple/team/all">Get all teams</a>
-	<br>
-	<br>
-	<form action="/simple/team">
-		<input name="id" placeholder="Put team id">
-		<button>Get the team</button>
-	</form>
-	<br>
-	<br>
-	<form action="/simple/team/new">
-		<input name="name" placeholder="Put new name team">
-		<button>Create new team</button>
-	</form>
+	<ul>
+		<h3> Exercise Coders </h3>
+		<li><a href="/simple/coder/all">Get all coders</a></li>
+		<br>
+		<li><form action="/simple/coder">
+				<input name="id" placeholder="Put coder id">
+				<button>Get the coder</button>
+			</form></li>
+		<br>
+		<h3> Exercise Teams </h3>
+		<li><a href="/simple/team/all">Get all teams</a></li>
+		<br>
+		<li><form action="/simple/team">
+				<input name="id" placeholder="Put team id">
+				<button>Get the team</button>
+			</form></li>
+		<br>
+		<li><form action="/simple/team/new">
+				<input name="name" placeholder="Put new name team">
+				<input name="leaderId" placeholder="Put id leader team">
+				<button>Create new team</button>
+			</form></li>
+		<br>
+		<li><form action="/simple/team/update">
+				<input name="id" placeholder="Put team id"> <input
+					name="name" placeholder="Put new name team">
+				<button>Update team</button>
+			</form></li>
+		<br>
+		<li><form action="/simple/team/delete">
+				<input name="id" placeholder="Put team id">
+				<button>Delete team (DA FARE)</button>
+			</form></li>
+
+
+
+	</ul>
 </body>
 </html>

@@ -6,7 +6,6 @@ import java.util.Optional;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 
-import model.Coder;
 import model.Team;
 
 public class TeamDAO {
@@ -25,7 +24,9 @@ public class TeamDAO {
 	public Optional<Team> get(int id){
 		EntityManager em = HibUtil.getEntityManager();
 		try {
-			return Optional.ofNullable(em.find(Team.class, id));
+			Team team = em.find(Team.class, id);
+			System.out.println(team.toString());
+			return Optional.ofNullable(team);
 		}finally {
 			if (em != null) {
 				em.close();
@@ -50,5 +51,41 @@ public class TeamDAO {
 		}
 	}
 	
+	 public boolean update(Team team) {
+	        EntityManager em = HibUtil.getEntityManager();
 
+	        try {
+	            EntityTransaction et = em.getTransaction();
+	            et.begin();
+	            em.merge(team);
+	            et.commit();
+	            return true;
+	        } catch (Exception ex) {
+	            return false;
+	        } finally {
+	            em.close();
+	        }
+	    }
+	
+	 public boolean delete(int id) {
+	        EntityManager em = HibUtil.getEntityManager();
+
+	        try {
+	            EntityTransaction et = em.getTransaction();
+	            et.begin();
+	            Team team = em.find(Team.class, id);
+	            if (team != null) {
+	                em.remove(team);
+	                et.commit();
+	                return true;
+	            } else {
+	                et.rollback();
+	                return false;
+	            }
+	        } catch (Exception ex) {
+	            return false;
+	        } finally {
+	            em.close();
+	        }
+	    }
 }

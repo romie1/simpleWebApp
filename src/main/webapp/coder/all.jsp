@@ -16,6 +16,7 @@
 			<th>Last Name</th>
 			<th>Hire Date</th>
 			<th>Salary</th>
+			<th>Leading Team</th>
 		</tr>
 		<c:forEach var="cur" items="${coders}">
 			<tr>
@@ -24,6 +25,7 @@
 				<td>${cur.lastName}</td>
 				<td>${cur.hireDate}</td>
 				<td>${cur.salary}</td>
+				<td style="color:${cur.leadingTeam.name}">${cur.leadingTeam.name}</td>
 			</tr>
 		</c:forEach>
 	</table>

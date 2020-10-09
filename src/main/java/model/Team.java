@@ -5,6 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -19,7 +21,11 @@ public class Team {
     private int id;
 
     private String name;
-
+    
+    @OneToOne(optional = false)
+    @JoinColumn(name="leader_id")
+    private Coder leader;
+    
     public Team() {
     }
 
@@ -43,10 +49,21 @@ public class Team {
         this.name = name;
     }
 
+    
+	public Coder getLeader() {
+		return leader;
+	}
+
+	public void setLeader(Coder leader) {
+		this.leader = leader;
+	}
+
 	@Override
 	public String toString() {
-		return String.format("Team: id=%s -  name=%s]", id, name);
+		return String.format("Team name = %s - Leader = %s", name, leader);
 	}
+	
+	
 
     
 }

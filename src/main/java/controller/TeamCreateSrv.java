@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import controller.dao.CoderDAO;
 import controller.dao.TeamDAO;
 import model.Team;
 
@@ -14,19 +15,20 @@ import model.Team;
  * Servlet implementation class TeamCreationSrv
  */
 @WebServlet("/team/new")
-public class TeamCreationSrv extends HttpServlet {
+public class TeamCreateSrv extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+		TeamDAO dao = new TeamDAO();
+		CoderDAO coderDao = new CoderDAO();
 		String name = request.getParameter("name");
+		String leaderId = request.getParameter("leaderId");
 		
 		Team team = new Team();
 		team.setName(name);
-		
-		TeamDAO dao = new TeamDAO();
+		team.setLeader(coderDao.get(Integer.parseInt(leaderId)).get());
+			
 		if(dao.create(team)) {
-			System.out.println("********created team" + team.toString());
 			request.setAttribute("team", team);			
 		}else {
 			request.setAttribute("fail", true);
