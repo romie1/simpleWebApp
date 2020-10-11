@@ -28,7 +28,7 @@ public class TeamCreateSrv extends HttpServlet {
 		team.setName(name);
 		team.setLeader(coderDao.get(Integer.parseInt(leaderId)).get());
 			
-		if(dao.create(team)) {
+		if(dao.create2(team)) {
 			request.setAttribute("team", team);			
 		}else {
 			request.setAttribute("fail", true);

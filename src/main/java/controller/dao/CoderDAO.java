@@ -2,6 +2,7 @@ package controller.dao;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Consumer;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
@@ -14,57 +15,84 @@ import onetoone.model.Coder;
 public class CoderDAO {
 	static final Logger LOG = LoggerFactory.getLogger(CoderDAO.class);
 
+	EntityManager entityManager;
+
+	public CoderDAO() {
+		this.entityManager = HibUtil.getEntityManager();
+	}
+
 	public List<Coder> getAll() {
-		EntityManager em = HibUtil.getEntityManager();
 		try {
 			LOG.trace("enter getAll method");
-			return em.createQuery("SELECT c FROM Coder c", Coder.class).getResultList();
+			return entityManager.createQuery("SELECT c FROM Coder c", Coder.class).getResultList();
 		} finally {
-			if (em != null) {
-				em.close();
+			if (entityManager != null) {
+				entityManager.close();
 			}
 		}
 	}
 
 	public Optional<Coder> get(int id) {
-		EntityManager em = HibUtil.getEntityManager();
 		try {
 			LOG.trace("enter get method");
-			return Optional.ofNullable(em.find(Coder.class, id));
+			return Optional.ofNullable(entityManager.find(Coder.class, id));
 		} finally {
-			if (em != null) {
-				em.close();
+			if (entityManager != null) {
+				entityManager.close();
 			}
 		}
 	}
 
 	public boolean create(Coder coder) {
-		EntityManager em = HibUtil.getEntityManager();
 		try {
 			LOG.trace("enter create method");
-			EntityTransaction et = em.getTransaction();
+			EntityTransaction et = entityManager.getTransaction();
 			et.begin();
-			em.persist(coder);
+			entityManager.persist(coder);
 			et.commit();
 			return true;
 		} catch (Exception ex) {
 			LOG.warn("Can't persist coder", ex);
 			return false;
 		} finally {
-			if (em != null) {
-				em.close();
+			if (entityManager != null) {
+				entityManager.close();
 			}
 		}
 	}
-	
-	public List<manytomany.model.Coder> readAllEager() {
-		EntityManager em = null;
+
+	public boolean create2(Coder coder) {
 		try {
-			em = HibUtil.getEntityManager();
-			String jpql = "SELECT DISTINCT e FROM coderManyToMany e JOIN FETCH e.teams";
-			return em.createQuery(jpql, manytomany.model.Coder.class).getResultList();
+			return executeInsideTransaction(entityManager -> entityManager.persist(coder));
+		} catch (Exception e) {
+			LOG.warn("Can't persist coder", e);
+			return false;
 		} finally {
-			em.close();
+			if (entityManager != null) {
+				entityManager.close();
+			}
+		}
+	}
+
+	public List<manytomany.model.Coder> readAllEager() {
+		try {
+			String jpql = "SELECT DISTINCT e FROM coderManyToMany e JOIN FETCH e.teams";
+			return entityManager.createQuery(jpql, manytomany.model.Coder.class).getResultList();
+		} finally {
+			entityManager.close();
+		}
+	}
+
+	private boolean executeInsideTransaction(Consumer<EntityManager> action) {
+		EntityTransaction entityTransaction = entityManager.getTransaction();
+		try {
+			entityTransaction.begin();
+			action.accept(entityManager);
+			entityTransaction.commit();
+			return true;
+		} catch (Exception e) {
+			entityTransaction.rollback();
+			throw e;
 		}
 	}
 
